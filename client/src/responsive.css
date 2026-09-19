@@ -1,0 +1,27 @@
+/* Mobile Responsive Design */
+
+@media (max-width: 768px) {
+  body {
+    margin: 0;
+    padding: 10px;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+
+  section {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+  }
+
+  div {
+    max-width: 100%;
+  }
+}
