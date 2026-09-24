@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import Subscription from "../models/Subscription";
 import authMiddleware from "../middleware/authMiddleware";
+import User from "../models/User";
+import transporter from "../config/email";
 
 const router = express.Router();
 
@@ -15,7 +17,20 @@ router.post("/", authMiddleware, async (req: Request, res: Response) => {
       startDate: new Date(),
       endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     });
+const user = await User.findById((req as any).user.userId);
 
+if (user) {
+  await transporter.sendMail({
+    from: process.env.EMAIL_USER,
+    to: user.email,
+    subject: "Subscription Activated",
+    text: `Hello ${user.name},
+
+Your ${plan} subscription has been successfully activated.
+
+Thank you for subscribing to our SaaS Application.`,
+  });
+}
     res.status(201).json({
       message: "Subscription created successfully",
       subscription,

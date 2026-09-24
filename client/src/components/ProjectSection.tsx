@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+
 function ProjectSection() {
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [projects, setProjects] = useState<any[]>([]);
+
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -19,7 +21,7 @@ function ProjectSection() {
         const data = await response.json();
 
         if (response.ok) {
-setProjects(data.projects);
+          setProjects(data.projects);
         }
       } catch (error) {
         console.log("Failed to fetch projects");
@@ -28,17 +30,19 @@ setProjects(data.projects);
 
     fetchProjects();
   }, []);
+
   useEffect(() => {
-  const socket = io("http://localhost:5000");
+    const socket = io("http://localhost:5000");
 
-  socket.on("projectCreated", (project) => {
-    setProjects((prevProjects) => [...prevProjects, project]);
-  });
+    socket.on("projectCreated", (project) => {
+      setProjects((prevProjects) => [...prevProjects, project]);
+    });
 
-  return () => {
-    socket.disconnect();
-  };
-}, []);
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
   const handleCreateProject = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -71,15 +75,23 @@ setProjects(data.projects);
   };
 
   return (
-    <section>
-      <h3>Projects</h3>
+    <section className="project-section">
+      <div className="section-header">
+        <div>
+          <h3>Projects</h3>
+          <p>Manage your projects and track their progress.</p>
+        </div>
 
-      <button onClick={() => setShowForm(!showForm)}>
-        Create Project
-      </button>
+        <button
+          className="primary-button"
+          onClick={() => setShowForm(!showForm)}
+        >
+          + Create Project
+        </button>
+      </div>
 
       {showForm && (
-        <div>
+        <div className="project-form">
           <h4>Create New Project</h4>
 
           <input
@@ -89,35 +101,56 @@ setProjects(data.projects);
             onChange={(e) => setName(e.target.value)}
           />
 
-          <br />
-
           <textarea
             placeholder="Project Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
 
-          <br />
+          <div className="form-actions">
+            <button className="primary-button" onClick={handleCreateProject}>
+              Create
+            </button>
 
-          <button onClick={handleCreateProject}>Create</button>
+            <button
+              className="secondary-button"
+              onClick={() => setShowForm(false)}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       )}
 
-    <div>
-  <h4>My Projects</h4>
+      <div className="projects-container">
+        <div className="projects-title">
+          <h4>My Projects</h4>
+          <span>{projects.length} Projects</span>
+        </div>
 
-  {projects.length === 0 ? (
-    <p>No projects available.</p>
-  ) : (
-    projects.map((project) => (
-      <div key={project._id}>
-        <h5>{project.name}</h5>
-        <p>{project.description}</p>
-        <p>Project ID: {project._id}</p>
+        {projects.length === 0 ? (
+          <div className="empty-state">
+            <p>No projects available.</p>
+          </div>
+        ) : (
+          <div className="project-grid">
+            {projects.map((project) => (
+              <div className="project-card" key={project._id}>
+                <div className="project-card-top">
+                  <h5>{project.name}</h5>
+                  <span className="status-badge">Active</span>
+                </div>
+
+                <p>{project.description}</p>
+
+                <div className="project-id">
+                  Project ID: {project._id}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-    ))
-  )}
-</div>
     </section>
   );
 }

@@ -5,9 +5,10 @@ import User from "../models/User";
 
 const router = express.Router();
 
+
 router.post("/register", async (req: Request, res: Response) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     const existingUser = await User.findOne({ email });
 
@@ -17,18 +18,21 @@ router.post("/register", async (req: Request, res: Response) => {
       });
     }
 
+    const selectedRole = role === "guest" ? "guest" : "user";
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
       name,
       email,
       password: hashedPassword,
-      role: "user",
+      role: selectedRole,
     });
 
     res.status(201).json({
       message: "User registered successfully",
       userId: user._id,
+      role: user.role,
     });
   } catch (error) {
     res.status(500).json({

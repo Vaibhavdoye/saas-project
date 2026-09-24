@@ -21,16 +21,22 @@ function App() {
     socket.disconnect();
   };
 }, []);
-  return (
-    <div>
-      <h1>SaaS Application</h1>
+ return (
+  <div className="app">
+    <header className="app-header">
+      <div>
+        <h1>SaaS Application</h1>
+        <p>Manage your projects, tasks and subscriptions</p>
+      </div>
+    </header>
 
+    <main className="app-content">
       <Login />
-
       <Dashboard />
       <AdminDashboard />
-    </div>
-  );
+    </main>
+  </div>
+);
 }
 
 export default App;

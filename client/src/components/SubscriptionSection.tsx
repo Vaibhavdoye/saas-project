@@ -34,18 +34,55 @@ function SubscriptionSection() {
   };
 
   return (
-    <section>
-      <h3>Subscription</h3>
+    <section className="subscription-section">
+      <div className="section-header">
+        <div>
+          <h3>Subscription</h3>
+          <p>Choose a plan for your SaaS account.</p>
+        </div>
+      </div>
 
-      <select value={plan} onChange={(e) => setPlan(e.target.value)}>
-       <option value="free">Free</option>
-<option value="pro">Pro</option>
-<option value="enterprise">Enterprise</option>
-      </select>
+      <div className="subscription-plans">
+        <div
+          className={`plan-card ${plan === "free" ? "selected" : ""}`}
+          onClick={() => setPlan("free")}
+        >
+          <h4>Free</h4>
+          <div className="plan-price">₹0</div>
+          <p>Basic access</p>
+          <button className="plan-button">Select</button>
+        </div>
 
-      <br />
+        <div
+          className={`plan-card ${plan === "pro" ? "selected" : ""}`}
+          onClick={() => setPlan("pro")}
+        >
+          <h4>Pro</h4>
+          <div className="plan-price">₹499</div>
+          <p>Advanced features</p>
+          <button className="plan-button">Select</button>
+        </div>
 
-      <button onClick={handleSubscribe}>Subscribe</button>
+        <div
+          className={`plan-card ${plan === "enterprise" ? "selected" : ""}`}
+          onClick={() => setPlan("enterprise")}
+        >
+          <h4>Enterprise</h4>
+          <div className="plan-price">₹999</div>
+          <p>Complete business access</p>
+          <button className="plan-button">Select</button>
+        </div>
+      </div>
+
+      <div className="subscribe-area">
+        <p>
+          Selected Plan: <strong>{plan}</strong>
+        </p>
+
+        <button className="primary-button" onClick={handleSubscribe}>
+          Subscribe
+        </button>
+      </div>
     </section>
   );
 }

@@ -7,6 +7,7 @@ import generateInvoice from "../utils/invoice";
 const router = express.Router();
 
 router.post("/", authMiddleware, async (req: Request, res: Response) => {
+  console.log("PAYMENT ROUTE HIT");
   try {
     const { subscriptionId, amount } = req.body;
 
@@ -43,11 +44,13 @@ router.post("/", authMiddleware, async (req: Request, res: Response) => {
       message: "Simulated payment successful",
       payment,
     });
-  } catch (error) {
-    res.status(500).json({
-      message: "Payment processing failed",
-    });
-  }
+ } catch (error) {
+  console.error("Payment Error:", error);
+
+  res.status(500).json({
+    message: error instanceof Error ? error.message : String(error),
+  });
+}
 });
 
 router.get("/", authMiddleware, async (req: Request, res: Response) => {
@@ -59,11 +62,14 @@ router.get("/", authMiddleware, async (req: Request, res: Response) => {
     res.json({
       payments,
     });
-  } catch (error) {
-    res.status(500).json({
-      message: "Failed to fetch payment history",
-    });
-  }
+  
+   } catch (error) {
+  console.error("Payment Error:", error);
+
+  res.status(500).json({
+    message: error instanceof Error ? error.message : String(error),
+  });
+}
 });
 
 export default router;
