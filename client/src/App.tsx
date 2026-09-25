@@ -7,7 +7,7 @@ import "./responsive.css";
 
 function App() {
   useEffect(() => {
-  const socket = io("http://localhost:5000");
+  const socket = io("https://saas-backend-nx6q.onrender.com");
 
   socket.on("connect", () => {
     console.log("WebSocket connected:", socket.id);

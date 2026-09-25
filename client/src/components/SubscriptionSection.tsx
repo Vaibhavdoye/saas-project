@@ -8,7 +8,7 @@ function SubscriptionSection() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:5000/api/subscriptions",
+        "https://saas-backend-nx6q.onrender.com/api/subscriptions",
         {
           method: "POST",
           headers: {

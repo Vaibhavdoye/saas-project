@@ -9,7 +9,7 @@ const [projects, setProjects] = useState<any[]>([]);
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-          "http://localhost:5000/api/admin/users",
+          "https://saas-backend-nx6q.onrender.com/api/admin/users",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -35,7 +35,7 @@ const [projects, setProjects] = useState<any[]>([]);
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-          "http://localhost:5000/api/admin/projects",
+          "https://saas-backend-nx6q.onrender.com/api/admin/projects",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -60,7 +60,7 @@ const [projects, setProjects] = useState<any[]>([]);
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-      `http://localhost:5000/api/admin/users/${userId}`,
+      `https://saas-backend-nx6q.onrender.com/api/admin/users/${userId}`,
       {
         method: "DELETE",
         headers: {
@@ -89,7 +89,7 @@ const handleDeleteProject = async (projectId: string) => {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-      `http://localhost:5000/api/admin/projects/${projectId}`,
+      `https://saas-backend-nx6q.onrender.com/api/admin/projects/${projectId}`,
       {
         method: "DELETE",
         headers: {

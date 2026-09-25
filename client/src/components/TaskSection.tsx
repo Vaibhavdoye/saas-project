@@ -12,7 +12,7 @@ function TaskSection() {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-          `http://localhost:5000/api/tasks?project=${project}`,
+          `https://saas-backend-nx6q.onrender.com/api/tasks?project=${project}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -40,7 +40,7 @@ function TaskSection() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:5000/api/tasks/${taskId}`,
+        `https://saas-backend-nx6q.onrender.com/api/tasks/${taskId}`,
         {
           method: "PUT",
           headers: {
@@ -72,7 +72,7 @@ function TaskSection() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:5000/api/tasks/${taskId}`,
+        `https://saas-backend-nx6q.onrender.com/api/tasks/${taskId}`,
         {
           method: "DELETE",
           headers: {
@@ -97,7 +97,7 @@ function TaskSection() {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:5000/api/tasks", {
+      const response = await fetch("https://saas-backend-nx6q.onrender.com/api/tasks", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

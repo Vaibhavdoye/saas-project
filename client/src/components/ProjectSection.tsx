@@ -12,7 +12,7 @@ function ProjectSection() {
       try {
         const token = localStorage.getItem("token");
 
-        const response = await fetch("http://localhost:5000/api/projects", {
+        const response = await fetch("https://saas-backend-nx6q.onrender.com/api/projects", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -32,7 +32,7 @@ function ProjectSection() {
   }, []);
 
   useEffect(() => {
-    const socket = io("http://localhost:5000");
+    const socket = io("https://saas-backend-nx6q.onrender.com");
 
     socket.on("projectCreated", (project) => {
       setProjects((prevProjects) => [...prevProjects, project]);
@@ -47,7 +47,7 @@ function ProjectSection() {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:5000/api/projects", {
+      const response = await fetch("https://saas-backend-nx6q.onrender.com/api/projects", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
