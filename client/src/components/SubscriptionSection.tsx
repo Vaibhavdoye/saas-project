@@ -1,7 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function SubscriptionSection() {
   const [plan, setPlan] = useState("free");
+  const [subscribedPlan, setSubscribedPlan] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchSubscription = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+          "https://saas-backend-nx6q.onrender.com/api/subscriptions",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (response.ok && data.subscriptions?.length > 0) {
+          const latestSubscription =
+            data.subscriptions[data.subscriptions.length - 1];
+
+          setPlan(latestSubscription.plan);
+          setSubscribedPlan(latestSubscription.plan);
+        }
+      } catch (error) {
+        console.error("Failed to fetch subscription");
+      }
+    };
+
+    fetchSubscription();
+  }, []);
 
   const handleSubscribe = async () => {
     try {
@@ -24,6 +56,7 @@ function SubscriptionSection() {
       const data = await response.json();
 
       if (response.ok) {
+        setSubscribedPlan(data.subscription.plan);
         alert("Subscription created successfully");
       } else {
         alert(data.message);
@@ -64,7 +97,9 @@ function SubscriptionSection() {
         </div>
 
         <div
-          className={`plan-card ${plan === "enterprise" ? "selected" : ""}`}
+          className={`plan-card ${
+            plan === "enterprise" ? "selected" : ""
+          }`}
           onClick={() => setPlan("enterprise")}
         >
           <h4>Enterprise</h4>
@@ -78,6 +113,12 @@ function SubscriptionSection() {
         <p>
           Selected Plan: <strong>{plan}</strong>
         </p>
+
+        {subscribedPlan && (
+          <p>
+            Current Subscription: <strong>{subscribedPlan}</strong>
+          </p>
+        )}
 
         <button className="primary-button" onClick={handleSubscribe}>
           Subscribe

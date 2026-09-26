@@ -729,3 +729,24 @@ h3 {
   flex-shrink: 0;
   min-width: 84px;
 }
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logout-button {
+  margin-left: auto;
+  padding: 10px 20px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.logout-button:hover {
+  background: #1d4ed8;
+}
