@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
-
+interface TaskData {
+  _id: string;
+  title: string;
+  description: string;
+  status: "pending" | "in-progress" | "completed";
+  project: string;
+  createdAt: string;
+  updatedAt: string;
+}
 function TaskSection() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [project, setProject] = useState("");
-  const [tasks, setTasks] = useState<any[]>([]);
+  const [tasks, setTasks] = useState<TaskData[]>([]);
 
   useEffect(() => {
     const fetchTasks = async () => {

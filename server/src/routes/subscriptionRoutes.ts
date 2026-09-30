@@ -1,10 +1,14 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+
 import express, { Request, Response } from "express";
 import Subscription from "../models/Subscription";
 import authMiddleware from "../middleware/authMiddleware";
 import User from "../models/User";
-import transporter from "../config/email";
-
+import { Resend } from "resend";
 const router = express.Router();
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 router.post("/", authMiddleware, async (req: Request, res: Response) => {
   try {
@@ -20,9 +24,9 @@ router.post("/", authMiddleware, async (req: Request, res: Response) => {
 const user = await User.findById((req as any).user.userId);
 
 if (user) {
-  await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to: user.email,
+  const { data, error } = await resend.emails.send({
+    from: "SaaS Application <onboarding@resend.dev>",
+    to: [user.email],
     subject: "Subscription Activated",
     text: `Hello ${user.name},
 
@@ -30,6 +34,10 @@ Your ${plan} subscription has been successfully activated.
 
 Thank you for subscribing to our SaaS Application.`,
   });
+
+  if (error) {
+    console.error("Resend Error:", error);
+  }
 }
     res.status(201).json({
       message: "Subscription created successfully",

@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-
+interface ProjectData {
+  _id: string;
+  name: string;
+  description: string;
+  owner: string;
+  createdAt: string;
+  updatedAt: string;
+}
 function ProjectSection() {
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<ProjectData[]>([]);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -34,8 +41,8 @@ function ProjectSection() {
   useEffect(() => {
     const socket = io("https://saas-backend-nx6q.onrender.com");
 
-    socket.on("projectCreated", (project) => {
-      setProjects((prevProjects) => [...prevProjects, project]);
+socket.on("projectCreated", (project: ProjectData) => {
+    setProjects((prevProjects) => [...prevProjects, project]);
     });
 
     return () => {

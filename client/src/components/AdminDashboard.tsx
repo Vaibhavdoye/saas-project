@@ -1,8 +1,22 @@
 import { useEffect, useState } from "react";
+interface AdminUser {
+  _id: string;
+  name: string;
+  email: string;
+  role: "admin" | "user" | "guest";
+}
 
+interface AdminProject {
+  _id: string;
+  name: string;
+  description: string;
+  owner?: {
+    name: string;
+  };
+}
 function AdminDashboard() {
-  const [users, setUsers] = useState<any[]>([]);
-const [projects, setProjects] = useState<any[]>([]);
+  const [users, setUsers] = useState<AdminUser[]>([]);
+const [projects, setProjects] = useState<AdminProject[]>([]);
   useEffect(() => {
     const fetchUsers = async () => {
       try {
